@@ -1,0 +1,4 @@
+is-msgs==1.1.10
+is-wire==1.2.0
+opencv_python==4.0.0.21
+numpy==1.16.2
