@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message FaceDetectorOptions
+{
+    string broker_uri = 1;
+}
