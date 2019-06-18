@@ -1,8 +1,5 @@
 {
     "broker_uri": "amqp://10.10.2.1:30000",
     "model_file": "./src/is_face_detector/haarcascade_frontalface_default.xml",
-    "cascade_options": {
-        "scale_factor" : 1.1,
-        "min_neighbors" : 2
-    }
+
 }
