@@ -3,4 +3,13 @@ syntax = "proto3";
 message FaceDetectorOptions
 {
     string broker_uri = 1;
+    string model_file = 2;
+    DetectorOptions cascade_options = 3;
+}
+
+
+message DetectorOptions
+{
+    float scale_factor = 1;
+    uint32 min_neighbors = 2;
 }

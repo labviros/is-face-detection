@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x16src/conf/options.proto\")\n\x13\x46\x61\x63\x65\x44\x65tectorOptions\x12\x12\n\nbroker_uri\x18\x01 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x16src/conf/options.proto\"h\n\x13\x46\x61\x63\x65\x44\x65tectorOptions\x12\x12\n\nbroker_uri\x18\x01 \x01(\t\x12\x12\n\nmodel_file\x18\x02 \x01(\t\x12)\n\x0f\x63\x61scade_options\x18\x03 \x01(\x0b\x32\x10.DetectorOptions\">\n\x0f\x44\x65tectorOptions\x12\x14\n\x0cscale_factor\x18\x01 \x01(\x02\x12\x15\n\rmin_neighbors\x18\x02 \x01(\rb\x06proto3')
 )
 
 
@@ -40,6 +40,20 @@ _FACEDETECTOROPTIONS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='model_file', full_name='FaceDetectorOptions.model_file', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='cascade_options', full_name='FaceDetectorOptions.cascade_options', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -53,10 +67,50 @@ _FACEDETECTOROPTIONS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=26,
-  serialized_end=67,
+  serialized_end=130,
 )
 
+
+_DETECTOROPTIONS = _descriptor.Descriptor(
+  name='DetectorOptions',
+  full_name='DetectorOptions',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='scale_factor', full_name='DetectorOptions.scale_factor', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='min_neighbors', full_name='DetectorOptions.min_neighbors', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=132,
+  serialized_end=194,
+)
+
+_FACEDETECTOROPTIONS.fields_by_name['cascade_options'].message_type = _DETECTOROPTIONS
 DESCRIPTOR.message_types_by_name['FaceDetectorOptions'] = _FACEDETECTOROPTIONS
+DESCRIPTOR.message_types_by_name['DetectorOptions'] = _DETECTOROPTIONS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FaceDetectorOptions = _reflection.GeneratedProtocolMessageType('FaceDetectorOptions', (_message.Message,), dict(
@@ -65,6 +119,13 @@ FaceDetectorOptions = _reflection.GeneratedProtocolMessageType('FaceDetectorOpti
   # @@protoc_insertion_point(class_scope:FaceDetectorOptions)
   ))
 _sym_db.RegisterMessage(FaceDetectorOptions)
+
+DetectorOptions = _reflection.GeneratedProtocolMessageType('DetectorOptions', (_message.Message,), dict(
+  DESCRIPTOR = _DETECTOROPTIONS,
+  __module__ = 'src.conf.options_pb2'
+  # @@protoc_insertion_point(class_scope:DetectorOptions)
+  ))
+_sym_db.RegisterMessage(DetectorOptions)
 
 
 # @@protoc_insertion_point(module_scope)
