@@ -1,6 +1,3 @@
-from is_wire.core import Logger
-from is_msgs.image_pb2 import Image, ObjectAnnotations
-import numpy as np
 import cv2
 
 

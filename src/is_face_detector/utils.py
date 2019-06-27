@@ -1,8 +1,4 @@
-import json
 from is_wire.core import Logger
-import numpy as np
-import cv2
-from is_msgs.image_pb2 import Image, ObjectAnnotations, ObjectLabels
 from google.protobuf.json_format import Parse
 from options_pb2 import FaceDetectorOptions
 import sys

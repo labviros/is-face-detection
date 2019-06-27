@@ -2,10 +2,7 @@ from utils import load_options
 from is_wire.core import Logger, Channel, Subscription, Message
 from face_detection import FaceDetector
 from is_msgs.image_pb2 import Image
-import cv2
-import time
 import re
-from options_pb2 import FaceDetectorOptions 
 import image_tools as img
 
 def main():
