@@ -1,15 +1,18 @@
 syntax = "proto3";
 
-message FaceDetectorOptions
-{
+import "google/protobuf/struct.proto";
+
+
+
+message FaceDetectorOptions {
     string broker_uri = 1;
-    string model_file = 2;
-    DetectorOptions cascade_options = 3;
+    HaarCascadeModel model  = 2;
 }
 
+message HaarCascadeModel {
+    string model_file = 1;
+    float scale_factor = 2;
+    uint32 min_neighbors = 3;
+    google.protobuf.ListValue min_size = 4;
 
-message DetectorOptions
-{
-    float scale_factor = 1;
-    uint32 min_neighbors = 2;
 }

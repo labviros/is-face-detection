@@ -13,6 +13,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,8 +21,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x16src/conf/options.proto\"h\n\x13\x46\x61\x63\x65\x44\x65tectorOptions\x12\x12\n\nbroker_uri\x18\x01 \x01(\t\x12\x12\n\nmodel_file\x18\x02 \x01(\t\x12)\n\x0f\x63\x61scade_options\x18\x03 \x01(\x0b\x32\x10.DetectorOptions\">\n\x0f\x44\x65tectorOptions\x12\x14\n\x0cscale_factor\x18\x01 \x01(\x02\x12\x15\n\rmin_neighbors\x18\x02 \x01(\rb\x06proto3')
-)
+  serialized_pb=_b('\n\x16src/conf/options.proto\x1a\x1cgoogle/protobuf/struct.proto\"K\n\x13\x46\x61\x63\x65\x44\x65tectorOptions\x12\x12\n\nbroker_uri\x18\x01 \x01(\t\x12 \n\x05model\x18\x02 \x01(\x0b\x32\x11.HaarCascadeModel\"\x81\x01\n\x10HaarCascadeModel\x12\x12\n\nmodel_file\x18\x01 \x01(\t\x12\x14\n\x0cscale_factor\x18\x02 \x01(\x02\x12\x15\n\rmin_neighbors\x18\x03 \x01(\r\x12,\n\x08min_size\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.ListValueb\x06proto3')
+  ,
+  dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
 
 
@@ -41,15 +43,8 @@ _FACEDETECTOROPTIONS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='model_file', full_name='FaceDetectorOptions.model_file', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='cascade_options', full_name='FaceDetectorOptions.cascade_options', index=2,
-      number=3, type=11, cpp_type=10, label=1,
+      name='model', full_name='FaceDetectorOptions.model', index=1,
+      number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -66,29 +61,43 @@ _FACEDETECTOROPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=26,
-  serialized_end=130,
+  serialized_start=56,
+  serialized_end=131,
 )
 
 
-_DETECTOROPTIONS = _descriptor.Descriptor(
-  name='DetectorOptions',
-  full_name='DetectorOptions',
+_HAARCASCADEMODEL = _descriptor.Descriptor(
+  name='HaarCascadeModel',
+  full_name='HaarCascadeModel',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='scale_factor', full_name='DetectorOptions.scale_factor', index=0,
-      number=1, type=2, cpp_type=6, label=1,
+      name='model_file', full_name='HaarCascadeModel.model_file', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scale_factor', full_name='HaarCascadeModel.scale_factor', index=1,
+      number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='min_neighbors', full_name='DetectorOptions.min_neighbors', index=1,
-      number=2, type=13, cpp_type=3, label=1,
+      name='min_neighbors', full_name='HaarCascadeModel.min_neighbors', index=2,
+      number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='min_size', full_name='HaarCascadeModel.min_size', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -104,13 +113,14 @@ _DETECTOROPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=132,
-  serialized_end=194,
+  serialized_start=134,
+  serialized_end=263,
 )
 
-_FACEDETECTOROPTIONS.fields_by_name['cascade_options'].message_type = _DETECTOROPTIONS
+_FACEDETECTOROPTIONS.fields_by_name['model'].message_type = _HAARCASCADEMODEL
+_HAARCASCADEMODEL.fields_by_name['min_size'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
 DESCRIPTOR.message_types_by_name['FaceDetectorOptions'] = _FACEDETECTOROPTIONS
-DESCRIPTOR.message_types_by_name['DetectorOptions'] = _DETECTOROPTIONS
+DESCRIPTOR.message_types_by_name['HaarCascadeModel'] = _HAARCASCADEMODEL
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FaceDetectorOptions = _reflection.GeneratedProtocolMessageType('FaceDetectorOptions', (_message.Message,), dict(
@@ -120,12 +130,12 @@ FaceDetectorOptions = _reflection.GeneratedProtocolMessageType('FaceDetectorOpti
   ))
 _sym_db.RegisterMessage(FaceDetectorOptions)
 
-DetectorOptions = _reflection.GeneratedProtocolMessageType('DetectorOptions', (_message.Message,), dict(
-  DESCRIPTOR = _DETECTOROPTIONS,
+HaarCascadeModel = _reflection.GeneratedProtocolMessageType('HaarCascadeModel', (_message.Message,), dict(
+  DESCRIPTOR = _HAARCASCADEMODEL,
   __module__ = 'src.conf.options_pb2'
-  # @@protoc_insertion_point(class_scope:DetectorOptions)
+  # @@protoc_insertion_point(class_scope:HaarCascadeModel)
   ))
-_sym_db.RegisterMessage(DetectorOptions)
+_sym_db.RegisterMessage(HaarCascadeModel)
 
 
 # @@protoc_insertion_point(module_scope)

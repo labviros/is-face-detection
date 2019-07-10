@@ -10,7 +10,7 @@ def main():
     service_name = "FaceDetector.Detection"
     log = Logger(name=service_name)
     op = load_options()
-    face_detector = FaceDetector(op)
+    face_detector = FaceDetector(op.model)
     re_topic = re.compile(r'CameraGateway.(\w+).Frame')
     channel = Channel(op.broker_uri)
     subscription = Subscription(channel=channel, name=service_name)
