@@ -28,3 +28,8 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
         return input_image
     else:
         return Image()
+
+def draw_detection(image, faces):
+    for (x, y, w, h) in faces:
+        cv2.rectangle(image,(x,y),(x+w,y+h),(0,0,255),1)
+    return image        

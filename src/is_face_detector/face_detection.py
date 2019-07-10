@@ -11,36 +11,10 @@ class FaceDetector:
 
     def detect(self, image):
         # Read the image
-        self.image = image
-        gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+        _image = image
+        gray = cv2.cvtColor(_image, cv2.COLOR_BGR2GRAY)
         self.faces = self.faceCascade.detectMultiScale(image=gray, 
                                                        scaleFactor=self.scale_factor, 
                                                        minNeighbors=self.min_neighbors)
-
-    def draw_detection(self, colors, line_width):
-        for (x, y, w, h) in self.faces:
-            cv2.rectangle(self.image,(x,y),(x+w,y+h), colors, line_width)
-
-    @property
-    def scale_factor(self):
-        return self._scale_factor
+        return self.faces
     
-    @scale_factor.setter
-    def scale_factor(self, value):
-        try:
-            if self.options.cascade_options.HasField("scale_factor"):
-                self._scale_factor = value
-        except ValueError:
-            self._scale_factor = 1.1
-
-    @property
-    def min_neighbors(self):
-        return self._min_neighbors
-        
-    @min_neighbors.setter
-    def min_neighbors(self, value):
-        try:
-            if self.options.cascade_options.HasField("min_neighbors"):
-                self._min_neighbors = value
-        except ValueError:
-            self._min_neighbors= 2

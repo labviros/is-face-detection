@@ -18,16 +18,21 @@ def main():
 
 
     while True:
-        msg= channel.consume()
+        msg = channel.consume()
+
+        #unpack
         im = msg.unpack(Image)
         im_np = img.to_np(im)
 
-        face_detector.detect(im_np)
-        face_detector.draw_detection(colors=(0,255,0), line_width=1)
-        
-        log.info(str(len(face_detector.faces)))
+        #detections
+        faces = face_detector.detect(im_np)
+
+        #rendered
+        img_rendered = img.draw_detection(im_np, faces)
+
+        #pack and publish
         face_msgs = Message ()
-        face_msgs.pack(img.to_image(face_detector.image))
+        face_msgs.pack(img.to_image(img_rendered))
         channel.publish(face_msgs, re_topic.sub(r'FaceDetector.\1.Rendered', msg.topic))
 
 if __name__ == "__main__":
