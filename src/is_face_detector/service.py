@@ -5,6 +5,7 @@ from is_msgs.image_pb2 import Image
 import re
 import image_tools as img
 
+
 def main():
 
     service_name = "FaceDetector.Detection"
@@ -15,7 +16,6 @@ def main():
     channel = Channel(op.broker_uri)
     subscription = Subscription(channel=channel, name=service_name)
     subscription.subscribe(topic='CameraGateway.*.Frame')
-
 
     while True:
         msg = channel.consume()
@@ -31,9 +31,10 @@ def main():
         img_rendered = img.draw_detection(im_np, faces)
 
         #pack and publish
-        face_msgs = Message ()
+        face_msgs = Message()
         face_msgs.pack(img.to_image(img_rendered))
         channel.publish(face_msgs, re_topic.sub(r'FaceDetector.\1.Rendered', msg.topic))
+
 
 if __name__ == "__main__":
     main()
