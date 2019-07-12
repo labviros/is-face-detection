@@ -1,1 +1,5 @@
 __pycache__/
+docs/protoc-gen-doc
+# Protoc files
+protoc*.zip
+protoc/
