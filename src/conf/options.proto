@@ -2,17 +2,23 @@ syntax = "proto3";
 
 import "google/protobuf/struct.proto";
 
-
-
+// All options
 message FaceDetectorOptions {
+    // Uri of the broker
     string broker_uri = 1;
+    // Haarcascade Model
     HaarCascadeModel model  = 2;
 }
 
-message HaarCascadeModel {
-    string model_file = 1;
-    float scale_factor = 2;
-    uint32 min_neighbors = 3;
-    google.protobuf.ListValue min_size = 4;
 
+// Options of the HaarCascade model
+message HaarCascadeModel {
+    // Path of the model
+    string model_file = 1;
+    // The value indicates how much the image size is reduced at each image scale
+    float scale_factor = 2;
+    // How many “neighbors” each candidate rectangle should have
+    uint32 min_neighbors = 3;
+    // The minimum object size
+    google.protobuf.ListValue min_size = 4;
 }
