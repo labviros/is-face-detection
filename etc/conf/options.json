@@ -1,0 +1,9 @@
+{
+    "broker_uri": "amqp://10.10.2.1:30000",
+    "model": {
+        "model_file": "./etc/model/haarcascade_frontalface_default.xml",
+        "scale_factor" : 1.1,
+        "min_neighbors" : 2,
+        "min_size": [10,10]
+    }
+}
