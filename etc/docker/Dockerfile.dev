@@ -1,0 +1,10 @@
+FROM python:3.6-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget libsm6 libxext6 libxrender-dev 
+
+
+RUN cd /tmp         \
+    wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml  
+
+RUN rm -rf /tmp/*
