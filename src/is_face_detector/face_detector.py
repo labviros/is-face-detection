@@ -10,10 +10,7 @@ class FaceDetector:
         self.min_size = tuple([int(v.number_value) for v in op.min_size.values])
 
     def detect(self, image):
-        # Read the image
-        _image = image
-        gray = cv2.cvtColor(_image, cv2.COLOR_BGR2GRAY)
-
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         self.faces = self.faceCascade.detectMultiScale(
             image=gray,
             scaleFactor=self.scale_factor,
