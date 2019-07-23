@@ -29,8 +29,6 @@ spec:
       labels:
         app: detector
     spec:
-      nodeSelector: 
-        min_cuda_version: "8"
       containers:
       - name: service
         image: luizcarloscf/is-face-detector:0.0.1
@@ -41,7 +39,6 @@ spec:
           limits:
             cpu: "1"
             memory: 1024Mi
-            nvidia.com/gpu: 1
         volumeMounts:
           - name: options
             mountPath: /conf/
