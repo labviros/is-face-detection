@@ -23,12 +23,14 @@ kind: Deployment
 metadata:
   name: "is-face-detector"
 spec:
-  replicas: 1
+  replicas: 4
   template:
     metadata:
       labels:
         app: detector
     spec:
+      nodeSelector: 
+        min_cuda_version: "8"
       containers:
       - name: service
         image: luizcarloscf/is-face-detector:0.0.1
@@ -38,7 +40,8 @@ spec:
         resources:
           limits:
             cpu: "1"
-            memory: 512Mi
+            memory: 1024Mi
+            nvidia.com/gpu: 1
         volumeMounts:
           - name: options
             mountPath: /conf/
