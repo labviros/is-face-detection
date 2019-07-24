@@ -11,5 +11,7 @@ fi
 
 protoc --plugin=protoc-gen-doc=./protoc-gen-doc --doc_out=. --doc_opt=markdown,README.md -I.. ../conf/*.proto
 sed -i '/## Scalar Value Types/,$d' README.md 
+sed  -i "/Scalar Value Types/d" README.md
+
 mv README.md ../../
-rm -rf protoc-gen-doc
+rm -rf protoc-gen-doc 

@@ -11,7 +11,6 @@
   
   
 
-- [Scalar Value Types](#scalar-value-types)
 
 
 
