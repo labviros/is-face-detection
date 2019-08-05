@@ -2,6 +2,7 @@ from .utils import load_options
 from is_wire.core import Logger, Channel, Subscription, Message
 from .face_detector import FaceDetector
 from is_msgs.image_pb2 import Image
+from .service_channel import ServiceChannel
 import re
 from .image_tools import to_image, to_np, draw_detection
 
@@ -13,12 +14,12 @@ def main():
     op = load_options()
     face_detector = FaceDetector(op.model)
     re_topic = re.compile(r'CameraGateway.(\w+).Frame')
-    channel = Channel(op.broker_uri)
+    channel = ServiceChannel(op.broker_uri)
     subscription = Subscription(channel=channel, name=service_name)
     subscription.subscribe(topic='CameraGateway.*.Frame')
 
     while True:
-        msg = channel.consume()
+        msg, dropped = channel.consume(return_dropped=True)
 
         #unpack
         im = msg.unpack(Image)
@@ -34,6 +35,8 @@ def main():
         face_msgs = Message()
         face_msgs.pack(to_image(img_rendered))
         channel.publish(face_msgs, re_topic.sub(r'FaceDetector.\1.Rendered', msg.topic))
+
+        log.info('detections = {:2d}, dropped_messages = {:2d}', len(faces), dropped)
 
 
 if __name__ == "__main__":
