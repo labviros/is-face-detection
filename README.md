@@ -1,9 +1,9 @@
 # Protocol Documentation
-<a name="top"/>
+<a name="top"></a>
 
 ## Table of Contents
 
-- [conf/options.proto](#conf/options.proto)
+- [options.proto](#options.proto)
     - [FaceDetectorOptions](#.FaceDetectorOptions)
     - [HaarCascadeModel](#.HaarCascadeModel)
   
@@ -14,14 +14,14 @@
 
 
 
-<a name="conf/options.proto"/>
+<a name="options.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## conf/options.proto
+## options.proto
 
 
 
-<a name=".FaceDetectorOptions"/>
+<a name=".FaceDetectorOptions"></a>
 
 ### FaceDetectorOptions
 All options
@@ -37,7 +37,7 @@ All options
 
 
 
-<a name=".HaarCascadeModel"/>
+<a name=".HaarCascadeModel"></a>
 
 ### HaarCascadeModel
 Options of the HaarCascade model
