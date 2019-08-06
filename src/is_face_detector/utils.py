@@ -1,6 +1,6 @@
 from is_wire.core import Logger
 from google.protobuf.json_format import Parse
-from options_pb2 import FaceDetectorOptions
+from .options_pb2 import FaceDetectorOptions
 import sys
 
 

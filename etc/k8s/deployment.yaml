@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: face-detector
+  namespace: default
+data:
+  detector: |-
+    {
+      "broker_uri": "amqp://rabbitmq.default",
+      "model": {
+        "model_file": "./haarcascade_frontalface_default.xml",
+        "scale_factor" : 1.1,
+        "min_neighbors" : 2,  
+        "min_size": [10,10]
+      }
+    }
+
+
+--- 
+
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: "is-face-detector"
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: detector
+    spec:
+      containers:
+      - name: service
+        image: luizcarloscf/is-face-detector:0.0.1
+        command: ["is-face-detector"]
+        args: ["/conf/options.json"]
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1024Mi
+        volumeMounts:
+          - name: options
+            mountPath: /conf/
+      volumes:
+      - name: options
+        configMap:
+          name: face-detector
+          items:
+          - key: detector
+            path: options.json
