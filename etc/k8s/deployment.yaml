@@ -7,6 +7,9 @@ data:
   detector: |-
     {
       "broker_uri": "amqp://rabbitmq.default",
+      "zipkin_host": "zipkin.default",
+      "zipkin_port": 9411,
+      "zipkin_batch_size": 100,
       "model": {
         "model_file": "./haarcascade_frontalface_default.xml",
         "scale_factor" : 1.1,

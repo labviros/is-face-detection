@@ -10,9 +10,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     entry_points={
-        'console_scripts': [
-            'is-face-detector=is_face_detector.service:main',
-        ],
+        'console_scripts': ['is-face-detector=is_face_detector.service:main',],
     },
     zip_safe=False,
     install_requires=[
@@ -20,5 +18,7 @@ setup(
         'is-msgs==1.1.10',
         'opencv-python==4.1.0.*',
         'numpy==1.16.1',
+        'opencensus-ext-zipkin==0.2.1',
+        'python-dateutil==2.8.0',
     ],
 )

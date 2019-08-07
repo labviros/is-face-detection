@@ -24,13 +24,16 @@
 <a name=".FaceDetectorOptions"></a>
 
 ### FaceDetectorOptions
-All options
+Service Configuration
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| broker_uri | [string](#string) |  | Uri of the broker |
-| model | [HaarCascadeModel](#HaarCascadeModel) |  | Haarcascade Model |
+| broker_uri | [string](#string) |  |  |
+| zipkin_host | [string](#string) |  |  |
+| zipkin_port | [uint32](#uint32) |  |  |
+| zipkin_batch_size | [uint32](#uint32) |  |  |
+| model | [HaarCascadeModel](#HaarCascadeModel) |  | Configurations of the HaarCascade model |
 
 
 
@@ -40,7 +43,7 @@ All options
 <a name=".HaarCascadeModel"></a>
 
 ### HaarCascadeModel
-Options of the HaarCascade model
+
 
 
 | Field | Type | Label | Description |
