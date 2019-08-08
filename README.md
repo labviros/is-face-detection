@@ -20,13 +20,7 @@ cd src/conf/
 chmod +x generate_docs.sh
 ./generate_docs.sh
 ``` 
-
-
-
- 
-
- 
-
+The image docker used here support any application in python that uses [OpenCV](https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html). If you need another module, specify on [setup.py](https://github.com/labviros/is-face-detector/blob/master/setup.py). Maybe, your application will not run because the image docker doesn't contain some library. In this case, will be necessary edit the [etc/docker/Dockerfile](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile), by installing what do you need or using another base image. The repository [how-to](https://github.com/labviros/how-to/tree/master/deploy_an_app_to_k8s) contains a tutorial of deploying an application to a Kubernetes cluster. If you have any other doubts, we strongly recommended see the [RabbitMQ tutorials](https://www.rabbitmq.com/getstarted.html), the [Kubernetes tutorials](https://kubernetes.io/docs/tutorials/), the [is-wire-py repository](https://github.com/labviros/is-wire-py) or the [Protocol Buffer tutorials](https://developers.google.com/protocol-buffers/docs/pythontutorial).
  
 
  
