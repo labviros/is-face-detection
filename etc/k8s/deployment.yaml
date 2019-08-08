@@ -9,7 +9,6 @@ data:
       "broker_uri": "amqp://rabbitmq.default",
       "zipkin_host": "zipkin.default",
       "zipkin_port": 9411,
-      "zipkin_batch_size": 100,
       "model": {
         "model_file": "./haarcascade_frontalface_default.xml",
         "scale_factor" : 1.1,
@@ -40,7 +39,7 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: "1"
+            cpu: "2"
             memory: 1024Mi
         volumeMounts:
           - name: options

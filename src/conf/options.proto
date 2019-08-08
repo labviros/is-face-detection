@@ -7,7 +7,6 @@ message FaceDetectorOptions {
     string broker_uri = 1;
     string zipkin_host = 2;
     uint32 zipkin_port = 3;
-    uint32 zipkin_batch_size = 4;
     // Configurations of the HaarCascade model
     HaarCascadeModel model  = 5;
 }

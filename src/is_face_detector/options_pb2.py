@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x16src/conf/options.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x90\x01\n\x13\x46\x61\x63\x65\x44\x65tectorOptions\x12\x12\n\nbroker_uri\x18\x01 \x01(\t\x12\x13\n\x0bzipkin_host\x18\x02 \x01(\t\x12\x13\n\x0bzipkin_port\x18\x03 \x01(\r\x12\x19\n\x11zipkin_batch_size\x18\x04 \x01(\r\x12 \n\x05model\x18\x05 \x01(\x0b\x32\x11.HaarCascadeModel\"\x81\x01\n\x10HaarCascadeModel\x12\x12\n\nmodel_file\x18\x01 \x01(\t\x12\x14\n\x0cscale_factor\x18\x02 \x01(\x02\x12\x15\n\rmin_neighbors\x18\x03 \x01(\r\x12,\n\x08min_size\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.ListValueb\x06proto3')
+  serialized_pb=_b('\n\x16src/conf/options.proto\x1a\x1cgoogle/protobuf/struct.proto\"u\n\x13\x46\x61\x63\x65\x44\x65tectorOptions\x12\x12\n\nbroker_uri\x18\x01 \x01(\t\x12\x13\n\x0bzipkin_host\x18\x02 \x01(\t\x12\x13\n\x0bzipkin_port\x18\x03 \x01(\r\x12 \n\x05model\x18\x05 \x01(\x0b\x32\x11.HaarCascadeModel\"\x81\x01\n\x10HaarCascadeModel\x12\x12\n\nmodel_file\x18\x01 \x01(\t\x12\x14\n\x0cscale_factor\x18\x02 \x01(\x02\x12\x15\n\rmin_neighbors\x18\x03 \x01(\r\x12,\n\x08min_size\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.ListValueb\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
@@ -57,14 +57,7 @@ _FACEDETECTOROPTIONS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='zipkin_batch_size', full_name='FaceDetectorOptions.zipkin_batch_size', index=3,
-      number=4, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='model', full_name='FaceDetectorOptions.model', index=4,
+      name='model', full_name='FaceDetectorOptions.model', index=3,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -82,8 +75,8 @@ _FACEDETECTOROPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=57,
-  serialized_end=201,
+  serialized_start=56,
+  serialized_end=173,
 )
 
 
@@ -134,8 +127,8 @@ _HAARCASCADEMODEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=204,
-  serialized_end=333,
+  serialized_start=176,
+  serialized_end=305,
 )
 
 _FACEDETECTOROPTIONS.fields_by_name['model'].message_type = _HAARCASCADEMODEL
