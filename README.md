@@ -1,3 +1,4 @@
+
 # Face Detector Service
 
 This service detect faces in images provided by the cameras.
@@ -6,7 +7,8 @@ This service detect faces in images provided by the cameras.
 
 | Name | Input (topic/message) | Output (topic/message) | Description
 | --- |--- | --- | --- |
-|Face.Detection | **CameraGateway.\d+.Frame** [Image](https://github.com/labviros/is-msgs/blob/modern-cmake/docs/README.md#is.vision.Image) | **SkeletonsDetector.\d+.Detection** [Image](https://github.com/labviros/is-msgs/blob/modern-cmake/docs/README.md#is.vision.Image)|After detection, faces are drew on input image and published for visualization.
+|Face.Detection | **CameraGateway.\d+.Frame** [Image](https://github.com/labviros/is-msgs/blob/modern-cmake/docs/README.md#is.vision.Image) | **FaceDetector.\d+.Rendered** [Image](https://github.com/labviros/is-msgs/blob/modern-cmake/docs/README.md#is.vision.Image)|After detection, faces are drew on input image and published for visualization.
+|Face.Detection| **CameraGateway.\d+.Frame** [Image](https://github.com/labviros/is-msgs/blob/modern-cmake/docs/README.md#is.vision.Image) | **FaceDetector.\d+.Detection** [Object Annotations](https://github.com/labviros/is-msgs/blob/modern-cmake/docs/README.md#is.vision.ObjectAnnotations) | Detect face on images published by cameras and publishes an ObjectAnnotations message containing all the face detected
 
 ## About
 It is a machine learning based approach where a cascade function is trained and then used to detect objects in other images. [OpenCV](https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html) already contains many pre-trained classifiers for face, eyes, smiles, etc. 
@@ -14,21 +16,39 @@ It is a machine learning based approach where a cascade function is trained and 
 You can choose the scale factor, minimal neighboors and minimal size. This options are specified in the [Protocol Documentation](https://github.com/labviros/is-face-detector#protocol-documentation).
 ## Developing
 
-In case you need to make any change on options protobuf file, will be necessary to rebuild the documentation file related to it. For do that, simply run the script [src/conf/generate_docs.sh](https://github.com/labviros/is-face-detector/blob/master/src/conf/generate_docs.sh).
+### is-wire-py
+
+The repository [is-wire-py](https://github.com/labviros/is-wire-py) contains some examples about the pub/Sub middleware for the *is* architecture (python implementation).
+
+
+### Protocols Buffer 
+In case you need to make any change on options protobuf file, will be necessary to rebuild the documentation file and the python related to it. For do that, simply run the script [src/conf/generate_docs.sh].(https://github.com/labviros/is-face-detector/blob/master/src/conf/generate_docs.sh).
 ```shell
 cd src/conf/
 chmod +x generate_docs.sh
 ./generate_docs.sh
 ``` 
-The image docker used here support any application in python that uses [OpenCV](https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html). If you need another module, specify on [setup.py](https://github.com/labviros/is-face-detector/blob/master/setup.py). Maybe, your application will not run because the image docker doesn't contain some library. In this case, will be necessary edit the [etc/docker/Dockerfile](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile), by installing what do you need or using another base image. The repository [how-to](https://github.com/labviros/how-to/tree/master/deploy_an_app_to_k8s) contains a tutorial of deploying an application to a Kubernetes cluster. If you have any other doubts, we strongly recommended see the [RabbitMQ tutorials](https://www.rabbitmq.com/getstarted.html), the [Kubernetes tutorials](https://kubernetes.io/docs/tutorials/), the [is-wire-py repository](https://github.com/labviros/is-wire-py) or the [Protocol Buffer tutorials](https://developers.google.com/protocol-buffers/docs/pythontutorial).
- 
+The service configuration is detailed below.
 
- 
+In case of any doubts about Protocol Buffers Objetcs, the [Protocol Buffer tutorials](https://developers.google.com/protocol-buffers/docs/pythontutorial) may help.
+### Docker
+The image docker used here support any application in python that uses [OpenCV](https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html). If you need another module, specify on [setup.py](https://github.com/labviros/is-face-detector/blob/master/setup.py). Maybe, your application will not run because the image docker doesn't contain some library. In this case, will be necessary edit the [etc/docker/Dockerfile](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile), by installing what do you need or using another base image. 
 
+The repository [how-to](https://github.com/labviros/how-to/tree/master/deploy_an_app_to_k8s) contains a tutorial of deploying an application to a Kubernetes cluster. 
+### Kubernetes
+To deploy this on cluster, just run:
+```shell
+## create the configMap with your configurations
+kubectl apply -f etc/conf/configMap.yaml
+## run the deployment
+kubectl apply -f etc/conf/deploy.yaml
+```
+If you have any other doubts about kubernetes, we strongly recommended see the the [Kubernetes tutorials](https://kubernetes.io/docs/tutorials/).
+## Service Configuration
 
+The options are set up in a [etc/conf/json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) or passed by a configMap. The struct of the json file need to be like descript bellow, once the json file is converted into a protobuf object.
 
-# Protocol Documentation
-<a name="top"></a>
+ <a name="top"/>
 
 ## Table of Contents
 
@@ -43,14 +63,14 @@ The image docker used here support any application in python that uses [OpenCV](
 
 
 
-<a name="options.proto"></a>
+<a name="options.proto"/>
 <p align="right"><a href="#top">Top</a></p>
 
 ## options.proto
 
 
 
-<a name=".FaceDetectorOptions"></a>
+<a name=".FaceDetectorOptions"/>
 
 ### FaceDetectorOptions
 Service Configuration
@@ -68,7 +88,7 @@ Service Configuration
 
 
 
-<a name=".HaarCascadeModel"></a>
+<a name=".HaarCascadeModel"/>
 
 ### HaarCascadeModel
 
