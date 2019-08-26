@@ -13,7 +13,7 @@ This service detect faces in images provided by the cameras.
 ## About
 It is a machine learning based approach where a cascade function is trained and then used to detect objects in other images. [OpenCV](https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html) already contains many pre-trained classifiers for face, eyes, smiles, etc. 
 
-You can choose the scale factor, minimal neighboors and minimal size. This options are specified in the [Protocol Documentation](https://github.com/labviros/is-face-detector#protocol-documentation).
+You can choose the scale factor, minimal neighboors and minimal size.
 ## Developing
 
 ### is-wire-py
