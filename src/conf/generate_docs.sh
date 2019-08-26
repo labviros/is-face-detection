@@ -17,6 +17,7 @@ sed -i "/Protocol Documentation/d" docs.md
 FILE=README.md
 if [ -f "$FILE" ]; then
     echo "$FILE exist"
+    sed -i '/name="top"/,$d' README.md 
 else
     echo "$FILE does not exist, creating..."
     touch README.md
