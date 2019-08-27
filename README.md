@@ -35,15 +35,7 @@ In case of any doubts about Protocol Buffers Objetcs, the [Protocol Buffer tutor
 The image docker used here support any application in python that uses [OpenCV](https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html). If you need another module, specify on [setup.py](https://github.com/labviros/is-face-detector/blob/master/setup.py). Maybe, your application will not run because the image docker doesn't contain some library. In this case, will be necessary edit the [etc/docker/Dockerfile](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile), by installing what do you need or using another base image. 
 
 The repository [how-to](https://github.com/labviros/how-to/tree/master/deploy_an_app_to_k8s) contains a tutorial of deploying an application to a Kubernetes cluster. 
-### Kubernetes
-To deploy this on cluster, just run:
-```shell
-## create the configMap with your configurations
-kubectl apply -f etc/conf/configMap.yaml
-## run the deployment
-kubectl apply -f etc/conf/deploy.yaml
-```
-If you have any other doubts about kubernetes, we strongly recommended see the the [Kubernetes tutorials](https://kubernetes.io/docs/tutorials/).
+
 ## Service Configuration
 
 The options are set up in a [etc/conf/json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) or passed by a configMap. The struct of the json file need to be like descript bellow, once the json file is converted into a protobuf object.
