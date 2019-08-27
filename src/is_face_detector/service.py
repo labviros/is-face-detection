@@ -39,7 +39,7 @@ def main():
     exporter = ZipkinExporter(
         service_name=service_name,
         host_name=zipkin_ok.group(1),
-        port=zipkin_ok.group(3),
+        port=int(zipkin_ok.group(3)),
         transport=AsyncTransport,
     )
 
