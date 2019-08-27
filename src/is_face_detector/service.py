@@ -29,6 +29,11 @@ def main():
     channel = ServiceChannel(op.broker_uri)
     log.info('Connected to broker {}', op.broker_uri)
 
+    zipkin_uri = "http://" + op.zipkin_host + ":" + str(op.zipkin_port)
+    ok = re.match("http:\\/\\/([a-zA-Z0-9\\.]+)(:(\\d+))?", zipkin_uri)
+    if not ok:
+        log.critical("Invalid zipkin uri \"{}\", expected http://<hostname>:<port>", zipkin_uri)
+
     exporter = ZipkinExporter(
         service_name=service_name,
         host_name=op.zipkin_host,
