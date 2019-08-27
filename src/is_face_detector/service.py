@@ -68,10 +68,9 @@ def main():
 
         span.add_attribute('Detections', len(faces))
         tracer.end_span()
-        log.info('detections = {:2d}, dropped_messages = {:2d}', len(faces), dropped)
-        log.info('took_ms = {{ detection: {:5.2f}, service: {:5.2f}}}',
-                 span_duration_ms(detection_span), span_duration_ms(span))
-
+        
+        log.info('{{detections: {:2d}, dropped_messages: {:2d}, took_ms: {{ detection: {:5.2f}, service: {:5.2f}}}}}', len(faces), dropped,span_duration_ms(detection_span), span_duration_ms(span))
+        
 
 if __name__ == "__main__":
     main()
