@@ -38,8 +38,6 @@ The repository [how-to](https://github.com/labviros/how-to/tree/master/deploy_an
 
 ## Service Configuration
 
-The options are set up in a [etc/conf/json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) or passed by a configMap. The struct of the json file need to be like descript bellow, once the json file is converted into a protobuf object.
-
  <a name="top"/>
 
 ## Table of Contents
@@ -60,6 +58,8 @@ The options are set up in a [etc/conf/json](https://github.com/labviros/is-face-
 
 ## options.proto
 
+
+The options are set up in a [etc/conf/json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) or passed by a configMap. The struct of the json file need to be like descript bellow, once the json file is converted into a protobuf object.
 
 
 <a name=".FaceDetectorOptions"/>
