@@ -20,24 +20,26 @@ def span_duration_ms(span):
 def main():
 
     service_name = "FaceDetector.Detection"
-    re_topic = re.compile(r'CameraGateway.(\w+).Frame')
-
+    log = Logger(name=service_name)
     op = load_options()
     face_detector = FaceDetector(op.model)
+    re_topic = re.compile(r'CameraGateway.(\w+).Frame')
 
-    log = Logger(name=service_name)
-    channel = ServiceChannel(op.broker_uri)
-    log.info('Connected to broker {}', op.broker_uri)
+    broker_ok = re.match("amqp:\\/\\/([a-zA-Z0-9\\.]+)?", op.broker_uri)
+    if not broker_ok:
+        log.critical("Invalid broker uri \"{}\", expected amqp://<hostname>", op.broker_uri)
 
-    zipkin_uri = "http://" + op.zipkin_host + ":" + str(op.zipkin_port)
-    ok = re.match("http:\\/\\/([a-zA-Z0-9\\.]+)(:(\\d+))?", zipkin_uri)
-    if not ok:
-        log.critical("Invalid zipkin uri \"{}\", expected http://<hostname>:<port>", zipkin_uri)
+    channel = ServiceChannel(broker_ok.group(1))
+    log.info('Connected to broker {}', broker_ok.group(1))
+
+    zipkin_ok = re.match("http:\\/\\/([a-zA-Z0-9\\.]+)(:(\\d+))?", op.zipkin_uri)
+    if not zipkin_ok:
+        log.critical("Invalid zipkin uri \"{}\", expected http://<hostname>:<port>", op.zipkin_uri)
 
     exporter = ZipkinExporter(
         service_name=service_name,
-        host_name=op.zipkin_host,
-        port=op.zipkin_port,
+        host_name=zipkin_ok.group(1),
+        port=zipkin_ok.group(3),
         transport=AsyncTransport,
     )
 
@@ -68,9 +70,11 @@ def main():
 
         span.add_attribute('Detections', len(faces))
         tracer.end_span()
-        
-        log.info('{{detections: {:2d}, dropped_messages: {:2d}, took_ms: {{ detection: {:5.2f}, service: {:5.2f}}}}}', len(faces), dropped,span_duration_ms(detection_span), span_duration_ms(span))
-        
+
+        log.info(
+            '{{detections: {:2d}, dropped_messages: {:2d}, took_ms: {{ detection: {:5.2f}, service: {:5.2f}}}}}',
+            len(faces), dropped, span_duration_ms(detection_span), span_duration_ms(span))
+
 
 if __name__ == "__main__":
     main()
