@@ -48,9 +48,6 @@ The repository [how-to](https://github.com/labviros/how-to/tree/master/deploy_an
   
   
   
-  
-
-
 
 
 <a name="options.proto"/>
@@ -71,8 +68,7 @@ Service Configuration
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | broker_uri | [string](#string) |  |  |
-| zipkin_host | [string](#string) |  |  |
-| zipkin_port | [uint32](#uint32) |  |  |
+| zipkin_uri | [string](#string) |  |  |
 | model | [HaarCascadeModel](#HaarCascadeModel) |  | Configurations of the HaarCascade model |
 
 
@@ -92,8 +88,6 @@ Service Configuration
 | scale_factor | [float](#float) |  | The value indicates how much the image size is reduced at each image scale |
 | min_neighbors | [uint32](#uint32) |  | How many “neighbors” each candidate rectangle should have |
 | min_size | [google.protobuf.ListValue](#google.protobuf.ListValue) |  | The minimum object size |
-
-
 
 
 

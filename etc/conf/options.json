@@ -1,9 +1,8 @@
 {
     "broker_uri": "amqp://rabbitmq.default",
-    "zipkin_host": "zipkin.default",
-    "zipkin_port": 9411,
+    "zipkin_uri": "http://zipkin.default:9411",
     "model": {
-        "model_file": "./etc/model/haarcascade_frontalface_default.xml",
+        "model_file": "./haarcascade_frontalface_default.xml",
         "scale_factor": 1.1,
         "min_neighbors": 5,
         "min_size": [

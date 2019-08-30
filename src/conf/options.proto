@@ -5,8 +5,7 @@ import "google/protobuf/struct.proto";
 // Service Configuration
 message FaceDetectorOptions {
     string broker_uri = 1;
-    string zipkin_host = 2;
-    uint32 zipkin_port = 3;
+    string zipkin_uri = 2;
     // Configurations of the HaarCascade model
     HaarCascadeModel model  = 5;
 }
