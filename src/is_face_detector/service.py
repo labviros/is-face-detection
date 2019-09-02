@@ -1,6 +1,5 @@
 import re
 import dateutil.parser as dp
-from urllib.parse import urlparse
 
 from is_wire.core import Logger, Channel, Subscription, Message
 from is_wire.core import Tracer, AsyncTransport
@@ -19,7 +18,7 @@ def span_duration_ms(span):
 
 
 def create_exporter(service_name, uri):
-    log = Logger(name="CreateTracer")
+    log = Logger(name="CreateExporter")
     zipkin_ok = re.match("http:\\/\\/([a-zA-Z0-9\\.]+)(:(\\d+))?", uri)
     if not zipkin_ok:
         log.critical("Invalid zipkin uri \"{}\", expected http://<hostname>:<port>", uri)
