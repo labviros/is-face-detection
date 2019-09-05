@@ -2,16 +2,15 @@ syntax = "proto3";
 
 import "google/protobuf/struct.proto";
 
-// All options
+// Service Configuration
 message FaceDetectorOptions {
-    // Uri of the broker
     string broker_uri = 1;
-    // Haarcascade Model
-    HaarCascadeModel model  = 2;
+    string zipkin_uri = 2;
+    // Configurations of the HaarCascade model
+    HaarCascadeModel model  = 5;
 }
 
 
-// Options of the HaarCascade model
 message HaarCascadeModel {
     // Path of the model
     string model_file = 1;
