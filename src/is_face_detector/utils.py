@@ -1,7 +1,30 @@
-from is_wire.core import Logger
-from google.protobuf.json_format import Parse
-from .options_pb2 import FaceDetectorOptions
+import re
 import sys
+
+from google.protobuf.json_format import Parse
+from is_wire.core import Logger, AsyncTransport
+from opencensus.ext.zipkin.trace_exporter import ZipkinExporter
+
+from .options_pb2 import FaceDetectorOptions
+
+
+def get_topic_id(topic):
+    re_topic = re.compile(r'CameraGateway.(\d+).Frame')
+    result = re_topic.match(topic)
+    if result:
+        return result.group(1)
+
+
+def create_exporter(service_name, uri):
+    log = Logger(name="CreateExporter")
+    zipkin_ok = re.match("http:\\/\\/([a-zA-Z0-9\\.]+)(:(\\d+))?", uri)
+    if not zipkin_ok:
+        log.critical("Invalid zipkin uri \"{}\", expected http://<hostname>:<port>", uri)
+    exporter = ZipkinExporter(service_name=service_name,
+                              host_name=zipkin_ok.group(1),
+                              port=zipkin_ok.group(3),
+                              transport=AsyncTransport)
+    return exporter
 
 
 def load_options():
