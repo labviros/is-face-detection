@@ -1,5 +1,11 @@
 from setuptools import setup, find_packages
 
+
+def get_requirements(req_file="requirements.txt"):
+    lines = [line.strip() for line in open(req_file)]
+    return [line for line in lines if line]
+
+
 setup(
     name='is_face_detector',
     version='0.0.1',
@@ -10,15 +16,11 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src'},
     entry_points={
-        'console_scripts': ['is-face-detector=is_face_detector.service:main',],
+        'console_scripts': [
+            'is-face-detector-stream=is_face_detector.stream:main',
+            'is-face-detector-rpc=is_face_detector.rpc:main',
+        ],
     },
     zip_safe=False,
-    install_requires=[
-        'is-wire==1.2.0',
-        'is-msgs==1.1.10',
-        'opencv-python==4.1.0.*',
-        'numpy==1.16.1',
-        'opencensus-ext-zipkin==0.2.1',
-        'python-dateutil==2.8.0',
-    ],
+    install_requires=get_requirements(req_file="requirements.txt"),
 )
