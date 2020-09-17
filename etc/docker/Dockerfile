@@ -1,13 +1,11 @@
 ## First stage
 FROM python:3.6-slim as build_step
 
-## Download wget to get the model file
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget
-
-## Download the model file
+## Download the models
 WORKDIR /opt/is
-RUN wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml  
+COPY etc/model/download_models.sh ./download_models.sh
+RUN bash ./download_models.sh && \
+    rm download_models.sh
 
 ## Fetch dependencies
 WORKDIR /tmp
@@ -32,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /opt/is
 COPY src/ src
 COPY setup.py ./
+COPY requirements.txt ./
 COPY etc/conf/options.json ./
 
 ## Collect the dependecies
@@ -39,4 +38,4 @@ RUN pip install \
     --find-links=/root/wheels \ 
     .
 
-CMD ["is-face-detector"]
+CMD ["is-face-detector-stream"]
