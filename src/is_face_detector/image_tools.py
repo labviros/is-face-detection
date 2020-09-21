@@ -1,6 +1,7 @@
-from is_msgs.image_pb2 import Image
 import cv2
 import numpy as np
+
+from is_msgs.image_pb2 import Image
 
 
 def to_np(input_image):
@@ -30,7 +31,12 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
         return Image()
 
 
-def draw_detection(image, faces):
-    for (x, y, w, h) in faces:
-        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+def draw_detection(image, annotations):
+    for index in range(len(annotations.objects)):
+        obj = annotations.objects[index]
+        x1 = int(obj.region.vertices[0].x)
+        y1 = int(obj.region.vertices[0].y)
+        x2 = int(obj.region.vertices[1].x)
+        y2 = int(obj.region.vertices[1].y)
+        cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 2)
     return image
