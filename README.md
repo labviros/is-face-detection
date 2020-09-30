@@ -52,3 +52,66 @@ The behavior of the service can be customized by passing a JSON configuration fi
 
 An example configuration file can be found in [`etc/conf/options.json`](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json).
 
+## Developing :hammer_and_wrench:
+
+The project structure follows as:
+
+```bash
+.
+├── etc
+│   ├── conf
+│   │   └── options.json
+│   ├── docker
+│   │   └── Dockerfile
+│   ├── images
+│   │   └── face.png
+│   ├── k8s
+│   │   ├── deployment.yaml
+│   │   └── ...
+│   └── model
+│       └── download_models.sh
+├── README.md
+├── setup.py
+└── src
+    ├── conf
+    │   ├── generate_docs.sh
+    │   └── options.proto
+    └── is_face_detector
+        ├── face_detector.py
+        ├── image_tools.py
+        ├── __init__.py
+        ├── options_pb2.py
+        ├── rpc.py
+        ├── stream_channel.py
+        ├── stream.py
+        └── utils.py
+```
+
+* [`etc/conf/options.json`](etc/conf/options.json): Example of JSON configuration file. Also used as default if none is passed;
+
+* [`etc/docker/Dockerfile`](etc/docker/Dockerfile): Dockerfile with the instructions to build a docker image containg this application;
+
+* [`etc/k8s`](etc/k8s): Example of yaml files indicating how to deploy the docker container of this application into a kubernetes cluster;
+
+* [`etc/images`](etc/images): examples of detection;
+
+* [`etc/model/download_models.sh`](etc/model/download_models.sh): shell script used to download the Haar feature-based cascade classifiers from opencv.
+
+* [`src/is_face_detector`](src/is_face_detector): python module with all the scripts.
+
+* [`src/is_face_detector/stream.py`](src/is_face_detector/stream.py): main python script for a Stream behavior.
+
+* [`src/is_face_detector/rpc.py`](src/is_face_detector/rpc.py): main python script for a RPC behavior.
+
+* [`src/conf/options.proto`](src/conf/options.proto): .proto file describing the schema of the options that can be passed to change the behavior of the service.
+
+* [`src/conf/generate_docs.sh`](src/conf/generate_docs.sh): shell script used to generate the file [`src/is_face_detector/options_pb2.py`](src/is_face_detector/options_pb2.py), that contains python classes indicating the schema of our options defined at [`src/conf/options.proto`](src/conf/options.proto).
+
+* [`setup.py`](setup.py): python file describing the module/package installed has been packaged and distributed with Distutils, which is the standard for distributing Python Modules.
+
+
+<!-- Links -->
+
+[Image]: https://github.com/labviros/is-msgs/tree/master/docs/README.md#is.vision.Image
+[ObjectAnnotations]: https://github.com/labviros/is-msgs/tree/master/docs/README.md#is.vision.ObjectAnnotations
+[OpenCV]: https://docs.opencv.org/3.4.1/d7/d8b/tutorial_py_face_detection.html
