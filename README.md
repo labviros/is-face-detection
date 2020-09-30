@@ -1,11 +1,11 @@
 
 # Face Detector Service
 
-![Example Image](etc/images/face.png)
+![Example Image](https://github.com/labviros/is-face-detector/blob/master/etc/images/face.png)
 
 ## About :smile:
 
-This service detect faces in images.
+This service detects faces in images.
 
 > Object Detection using Haar feature-based cascade classifiers is an effective object detection method proposed by Paul Viola and Michael Jones in their paper, "Rapid Object Detection using a Boosted Cascade of Simple Features" in 2001. It is a machine learning based approach where a cascade function is trained from a lot of positive and negative images. It is then used to detect objects in other images. [See more](https://docs.opencv.org/master/db/d28/tutorial_cascade_classifier.html)
 
@@ -22,15 +22,14 @@ The files are download using the script in [`etc/model/download_models.sh`](http
 
 ## Streams :camera:
 
-A stream is a program that consumes messages with a specific topic, processes and publishes messages with another topics, so if a other service wants to use the informations provided  by this service, it can simply subscribe for receive messages with the topic of interest.
+A stream is a program that consumes messages with a specific topic, processes and publishes messages with another topics, so if another service wants to use the informations provided  by this service, it can simply subscribe for receive messages with the topic of interest.
 
 The python script responsible for the stream in the table below can be found in [`src/is_face_detector/stream.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/stream.py).
 
-| Name | ⇒ Input | Output  ⇒ | Description
-| --- |--- | --- | --- |
-|Face.Detection |  :incoming_envelope: **topic:** `CameraGateway.(camera_id).Frame` <br> :gem: **schema:** [Image] | :incoming_envelope: **topic:**  `FaceDetector.(camera_id).Detection` <br> :gem: **schema:**  [ObjectAnnotations] | Detect face on images published by cameras and publishes an ObjectAnnotations message containing all the face detected
-|Face.Detection | :incoming_envelope: **topic:** `CameraGateway.(camera_id).Frame` <br> :gem: **schema:** [Image]| :incoming_envelope: **topic:** `FaceDetector.(camera_id).Rendered` <br> :gem: **schema:** [Image]| After detection, faces are drew on input image and published for visualization.
-
+| Name | ⇒ Input | Output  ⇒ | Description |
+| ---- | ------- | --------- | ----------- |
+| Face.Detection | :incoming_envelope: **topic:** `CameraGateway.(camera_id).Frame` <br> :gem: **schema:** [Image] | :incoming_envelope: **topic:**  `FaceDetector.(camera_id).Detection` <br> :gem: **schema:** [ObjectAnnotations] | Detects face on images published by cameras and publishes an ObjectAnnotations message containing all the detected faces. |
+| Face.Detection | :incoming_envelope: **topic:** `CameraGateway.(camera_id).Frame` <br> :gem: **schema:** [Image]| :incoming_envelope: **topic:** `FaceDetector.(camera_id).Rendered` <br> :gem: **schema:** [Image]| After detection, faces are drew on input image and published for visualization.|
 
 - Note: run the `is-face-detector-stream` in container to use this function.
 
@@ -40,9 +39,9 @@ RPC, or Remote Procedure Call, provided here acts as a remote server that binds 
 
 The python script responsible for the RPC in the table below can be found in [`src/is_face_detector/rpc.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/rpc.py).
 
-| Service | Request | Reply | Description |
-| ------- | ------- | ------| ----------- |
-| :incoming_envelope: **topic:** `FaceDetector.Detect`|  :gem: **schema:** [Image] | :gem: **schema:** [ObjectAnnotations] | Same purpose of stream shown above, but offered with a RPC server. |
+| Service | Request | Reply |  Description |
+| ------- | ------- | ----- | ------------ |
+| :incoming_envelope: **topic:** `FaceDetector.Detect`| :gem: **schema:** [Image] | :gem: **schema:** [ObjectAnnotations] | Same purpose of stream shown above, but offered with a RPC server. |
 
 - Note: run the `is-face-detector-rpc` in container to use this function.
 
@@ -105,7 +104,7 @@ The project structure follows as:
 
 * [`src/conf/options.proto`](src/conf/options.proto): .proto file describing the schema of the options that can be passed to change the behavior of the service.
 
-* [`src/conf/generate_docs.sh`](src/conf/generate_docs.sh): shell script used to generate the file [`src/is_face_detector/options_pb2.py`](src/is_face_detector/options_pb2.py), that contains python classes indicating the schema of our options defined at [`src/conf/options.proto`](src/conf/options.proto).
+* [`src/conf/generate_docs.sh`](src/conf/generate_pb.sh): shell script used to generate the file [`src/is_face_detector/options_pb2.py`](src/is_face_detector/options_pb2.py), that contains python classes indicating the schema of our options defined at [`src/conf/options.proto`](src/conf/options.proto).
 
 * [`setup.py`](setup.py): python file describing the module/package installed has been packaged and distributed with Distutils, which is the standard for distributing Python Modules.
 
