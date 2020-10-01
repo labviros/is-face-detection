@@ -1,11 +1,13 @@
-
 # Face Detector Service
 
 ![Example Image](https://github.com/labviros/is-face-detector/blob/master/etc/images/face.png)
 
-## About :smile:
 
-This service detects faces in images.
+In a simplified way, a service on the Intelligent Space is a python (or cpp, etc.) application running in a docker container on a kubernetes plataform which orchestrate these containers across a set of hosts.
+
+This service detects faces in images, providing these detections in different ways. It runs on **CPU**.
+
+## About :smile:
 
 > Object Detection using Haar feature-based cascade classifiers is an effective object detection method proposed by Paul Viola and Michael Jones in their paper, "Rapid Object Detection using a Boosted Cascade of Simple Features" in 2001. It is a machine learning based approach where a cascade function is trained from a lot of positive and negative images. It is then used to detect objects in other images. [See more](https://docs.opencv.org/master/db/d28/tutorial_cascade_classifier.html)
 
@@ -86,28 +88,82 @@ The project structure follows as:
         └── utils.py
 ```
 
-* [`etc/conf/options.json`](etc/conf/options.json): Example of JSON configuration file. Also used as default if none is passed;
+* [`etc/conf/options.json`](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json): Example of JSON configuration file. Also used as default if none is passed;
 
-* [`etc/docker/Dockerfile`](etc/docker/Dockerfile): Dockerfile with the instructions to build a docker image containg this application;
+* [`etc/docker/Dockerfile`](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile): Dockerfile with the instructions to build a docker image containg this application;
 
-* [`etc/k8s`](etc/k8s): Example of yaml files indicating how to deploy the docker container of this application into a kubernetes cluster;
+* [`etc/k8s`](https://github.com/labviros/is-face-detector/blob/master/etc/k8s): Example of yaml files indicating how to deploy the docker container of this application into a kubernetes cluster;
 
-* [`etc/images`](etc/images): examples of detection;
+* [`etc/images`](https://github.com/labviros/is-face-detector/blob/master/etc/images): examples of detection;
 
-* [`etc/model/download_models.sh`](etc/model/download_models.sh): shell script used to download the Haar feature-based cascade classifiers from opencv.
+* [`etc/model/download_models.sh`](https://github.com/labviros/is-face-detector/blob/master/etc/model/download_models.sh): shell script used to download the Haar feature-based cascade classifiers from opencv.
 
-* [`src/is_face_detector`](src/is_face_detector): python module with all the scripts.
+* [`src/is_face_detector`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector): python module with all the scripts.
 
-* [`src/is_face_detector/stream.py`](src/is_face_detector/stream.py): main python script for a Stream behavior.
+* [`src/is_face_detector/stream.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/stream.py): main python script for a Stream behavior.
 
-* [`src/is_face_detector/rpc.py`](src/is_face_detector/rpc.py): main python script for a RPC behavior.
+* [`src/is_face_detector/rpc.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/rpc.py): main python script for a RPC behavior.
 
-* [`src/conf/options.proto`](src/conf/options.proto): .proto file describing the schema of the options that can be passed to change the behavior of the service.
+* [`src/conf/options.proto`](https://github.com/labviros/is-face-detector/blob/master/src/conf/options.proto): .proto file describing the schema of the options that can be passed to change the behavior of the service.
 
-* [`src/conf/generate_docs.sh`](src/conf/generate_pb.sh): shell script used to generate the file [`src/is_face_detector/options_pb2.py`](src/is_face_detector/options_pb2.py), that contains python classes indicating the schema of our options defined at [`src/conf/options.proto`](src/conf/options.proto).
+* [`src/conf/generate_pb.sh`](https://github.com/labviros/is-face-detector/blob/master/src/conf/generate_pb.sh): shell script used to generate the file [`src/is_face_detector/options_pb2.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/options_pb2.py), that contains python classes indicating the schema of our options defined at [`src/conf/options.proto`](https://github.com/labviros/is-face-detector/blob/master/src/conf/options.proto).
 
 * [`setup.py`](setup.py): python file describing the module/package installed has been packaged and distributed with Distutils, which is the standard for distributing Python Modules.
 
+
+### is-wire-py :incoming_envelope:
+
+To a service communicate with another, it is used a message-based protocol ([AMQP](https://github.com/celery/py-amqp)) which depends of a broker to receive and deliver all messages ([RabbitMQ](https://www.rabbitmq.com/)).
+
+An python package was developed to abstract the communication layer implementing a publish/subscribe middleware, know as [is-wire-py](https://github.com/labviros/is-wire-py). There you can find examples of basic sending and receiving messages, or creating an RPC server, tracing messages, etc.
+
+
+### Protocol Buffer :gem:
+
+Every message on IS is standardized using [Protocol Buffer](https://developers.google.com/protocol-buffers). The schemas are definided at [is-msgs](https://github.com/labviros/is-msgs). 
+
+In this project, Procol Buffers are also used to define the [options](https://github.com/labviros/is-face-detector/blob/master/src/conf/options.proto) that are going to be loaded during runtime. The program will parser a [json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) into a Protocol Buffer Object, guarantee that the json have an specific structure. **`You do not must do it this way if you dont wanna to`**. You can simply load the json as a dictionary during runtime.
+
+In case you need to make any change on options protobuf file, will be necessary to rebuild the python file related to it. For do that, simply run the script [src/conf/generate_pb.sh](https://github.com/labviros/is-face-detector/blob/master/src/conf/generate_pb.sh)
+
+```bash
+cd src/conf/
+./generate_pb.sh
+```
+
+### Docker <img alt="k8s" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/docker/docker.png" />
+
+To run the application into kubernetes plataform, it must be package in the right format which is a [docker container](https://www.docker.com/resources/what-container). A docker container can be initialize from a docker image, the instructions to build the docker image are at [`etc/docker/Dockerfile`](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile).
+
+To be avaliable to the kubernetes cluster, the docker image must be storaged on [dockerhub](https://hub.docker.com/). Here, the repository on dockerhub in linked to this github repository. So everytime we set a tag here, it triggers the build of the docker image. More about  [how to automote the build of the docker image on dockerhub](https://github.com/labviros/is-face-detector/blob/master/https://docs.docker.com/docker-hub/builds/).
+
+It is not necessary to automate the build of the docker image. It is possible to build to image locally and push to dockerhub. For example,
+
+```bash
+docker build -f etc/docker/Dockerfile -t <user>/is-face-detector:<version> .
+docker push <user>/is-face-detector:<version>
+```
+
+The image docker used here support any application in python that uses [OpenCV]. If you need another module, specify on [setup.py](setup.py). Maybe, your application will not run because the image docker doesn't contain some library. In this case, will be necessary edit the [etc/docker/Dockerfile](etc/docker/Dockerfile), by installing what do you need or using another base image. 
+
+
+
+
+### Kubernetes <img alt="k8s" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/kubernetes/kubernetes.png" />
+
+Make sure you have [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed and the right `~/.kube/config` file to be able to interact with the cluster.
+
+Deploy the stream application:
+
+```bash
+kubectl apply -f etc/k8s/deployment.yaml
+```
+
+The `.yaml` file describes to things:
+* a deployment;
+* a configmap;
+
+A deployment is an way to run our application and guarantee that a N number of replicas will be running. The configmap allows load the options you desires when deploying into the kubernetes plataform. See mora about [deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and [confimap](https://kubernetes.io/docs/concepts/configuration/configmap/).
 
 <!-- Links -->
 
