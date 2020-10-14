@@ -3,7 +3,7 @@
 ![Example Image](https://github.com/labviros/is-face-detector/blob/master/etc/images/face.png)
 
 
-In a simplified way, a service on the Intelligent Space is a python (or cpp, etc.) application running in a docker container on a kubernetes plataform which orchestrate these containers across a set of hosts.
+In a simplified way, a service on the Intelligent Space is a python (or cpp, etc.) application running in a docker container which is orchestrated on a kubernetes plataform across a set of hosts.
 
 This service detects faces in images, providing these detections in different ways. It runs on **CPU**.
 
@@ -24,7 +24,7 @@ The files are download using the script in [`etc/model/download_models.sh`](http
 
 ## Streams :camera:
 
-A stream is a program that consumes messages with a specific topic, processes and publishes messages with another topics, so if another service wants to use the informations provided  by this service, it can simply subscribe for receive messages with the topic of interest.
+A stream is a program that consumes messages with a specific topic, processes them, and publishes messages in other topics, so if another service wants to use the informations provided by this service, it can simply subscribe to receive messages with the topic of interest.
 
 The python script responsible for the stream in the table below can be found in [`src/is_face_detector/stream.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/stream.py).
 
@@ -37,7 +37,7 @@ The python script responsible for the stream in the table below can be found in 
 
 ## RPCs :camera_flash:
 
-RPC, or Remote Procedure Call, provided here acts as a remote server that binds a specific function to a topic. So, you can process an [Image] by sending the message to the topic of this service. It will processed and you will receive a response, which can be the faces detected in an [ObjectAnnotations], error, timeout, etc...
+The RPC, or Remote Procedure Call, provided here acts as a remote server that binds a specific function to a topic. You can process an [Image] by sending the message to the topic of this service. It will be processed and you will receive a response, which can be the faces detected in an [ObjectAnnotations], error, timeout, etc...
 
 The python script responsible for the RPC in the table below can be found in [`src/is_face_detector/rpc.py`](https://github.com/labviros/is-face-detector/blob/master/src/is_face_detector/rpc.py).
 
@@ -113,16 +113,16 @@ The project structure follows as:
 
 ### is-wire-py :incoming_envelope:
 
-To a service communicate with another, it is used a message-based protocol ([AMQP](https://github.com/celery/py-amqp)) which depends of a broker to receive and deliver all messages ([RabbitMQ](https://www.rabbitmq.com/)).
+For a service to communicate with another, it uses a message-based protocol ([AMQP](https://github.com/celery/py-amqp)) which depends of a broker to receive and deliver all messages ([RabbitMQ](https://www.rabbitmq.com/)).
 
-An python package was developed to abstract the communication layer implementing a publish/subscribe middleware, know as [is-wire-py](https://github.com/labviros/is-wire-py). There you can find examples of basic sending and receiving messages, or creating an RPC server, tracing messages, etc.
+A python package was developed to abstract the communication layer implementing a publish/subscribe middleware, know as [is-wire-py](https://github.com/labviros/is-wire-py). There you can find basic examples of message sending and receiving, or creating an RPC server, tracing messages, etc.
 
 
 ### Protocol Buffer :gem:
 
 Every message on IS is standardized using [Protocol Buffer](https://developers.google.com/protocol-buffers). The schemas are definided at [is-msgs](https://github.com/labviros/is-msgs). 
 
-In this project, Procol Buffers are also used to define the [options](https://github.com/labviros/is-face-detector/blob/master/src/conf/options.proto) that are going to be loaded during runtime. The program will parser a [json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) into a Protocol Buffer Object, guarantee that the json have an specific structure. **`You do not must do it this way if you dont wanna to`**. You can simply load the json as a dictionary during runtime.
+In this project, Procol Buffers are also used to define the [options](https://github.com/labviros/is-face-detector/blob/master/src/conf/options.proto) that are going to be loaded during runtime. The program will parse a [json](https://github.com/labviros/is-face-detector/blob/master/etc/conf/options.json) into a Protocol Buffer Object and guarantee that it has an specific structure. **`You don't need do it this way if you don't want to`**, you can simply load the json as a dictionary during runtime.
 
 In case you need to make any change on options protobuf file, will be necessary to rebuild the python file related to it. For do that, simply run the script [src/conf/generate_pb.sh](https://github.com/labviros/is-face-detector/blob/master/src/conf/generate_pb.sh)
 
@@ -133,18 +133,18 @@ cd src/conf/
 
 ### Docker <img alt="k8s" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/docker/docker.png" />
 
-To run the application into kubernetes plataform, it must be package in the right format which is a [docker container](https://www.docker.com/resources/what-container). A docker container can be initialize from a docker image, the instructions to build the docker image are at [`etc/docker/Dockerfile`](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile).
+To run the application into kubernetes plataform, it must be packaged in the right format which is a [docker container](https://www.docker.com/resources/what-container). A docker container can be initialized from a docker image, the instructions to build the docker image are at [`etc/docker/Dockerfile`](https://github.com/labviros/is-face-detector/blob/master/etc/docker/Dockerfile).
 
 To be avaliable to the kubernetes cluster, the docker image must be storaged on [dockerhub](https://hub.docker.com/). Here, the repository on dockerhub in linked to this github repository. So everytime we set a tag here, it triggers the build of the docker image. More about  [how to automote the build of the docker image on dockerhub](https://github.com/labviros/is-face-detector/blob/master/https://docs.docker.com/docker-hub/builds/).
 
-It is not necessary to automate the build of the docker image. It is possible to build to image locally and push to dockerhub. For example,
+It is not necessary to automate the build of the docker image. It is possible to build the image locally and push to dockerhub. For example,
 
 ```bash
 docker build -f etc/docker/Dockerfile -t <user>/is-face-detector:<version> .
 docker push <user>/is-face-detector:<version>
 ```
 
-The image docker used here support any application in python that uses [OpenCV]. If you need another module, specify on [setup.py](setup.py). Maybe, your application will not run because the image docker doesn't contain some library. In this case, will be necessary edit the [etc/docker/Dockerfile](etc/docker/Dockerfile), by installing what do you need or using another base image. 
+The docker image used here supports any application in python that uses [OpenCV]. If you need another module, specify on [setup.py](setup.py). Your application may not run because the image docker doesn't contain some library, in this case it will be necessary to edit the [etc/docker/Dockerfile](etc/docker/Dockerfile) and rebuild it to install what you need or to use another base image. 
 
 
 
@@ -159,11 +159,11 @@ Deploy the stream application:
 kubectl apply -f etc/k8s/deployment.yaml
 ```
 
-The `.yaml` file describes to things:
+The `.yaml` file describes two things:
 * a deployment;
 * a configmap;
 
-A deployment is an way to run our application and guarantee that a N number of replicas will be running. The configmap allows load the options you desires when deploying into the kubernetes plataform. See mora about [deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and [confimap](https://kubernetes.io/docs/concepts/configuration/configmap/).
+A deployment is an way to run our application and guarantee that an N number of replicas will be running. The configmap allows load the options you desires when deploying into the kubernetes plataform. See more about [deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and [confimap](https://kubernetes.io/docs/concepts/configuration/configmap/).
 
 <!-- Links -->
 
