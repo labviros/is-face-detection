@@ -2,18 +2,19 @@ import dateutil.parser as dp
 
 from is_msgs.image_pb2 import Image
 from is_wire.core import Logger, Subscription, Message, Tracer
+from opencensus.trace.span import Span
 
 from is_face_detector.detector import FaceDetector
 from is_face_detector.stream_channel import StreamChannel
 from is_face_detector.utils import load_options, create_exporter, get_topic_id
 
 
-def span_duration_ms(span):
+def span_duration_ms(span: Span) -> float:
     dt = dp.parse(span.end_time) - dp.parse(span.start_time)
     return dt.total_seconds() * 1000.0
 
 
-def main():
+def main() -> None:
     service_name = "FaceDetector.Detection"
     log = Logger(name=service_name)
     options = load_options(log=log)

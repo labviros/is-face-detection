@@ -1,5 +1,4 @@
-from typing import Tuple, List, Any
-
+from typing import Tuple
 import cv2
 import numpy as np
 from nptyping import NDArray, Int8, Float32, Shape
@@ -7,6 +6,10 @@ from nptyping import NDArray, Int8, Float32, Shape
 from is_msgs.image_pb2 import ObjectAnnotations, Image
 
 from is_face_detector.conf.options_pb2 import Model
+
+Width = int
+Height = int
+Channels = int
 
 
 class FaceDetector:
@@ -56,18 +59,18 @@ class FaceDetector:
     def visualize(
         image: NDArray[Shape["*, *, 3"], Int8], annotations: ObjectAnnotations
     ) -> NDArray[Shape["*, *, 3"], Int8]:
-        output = image.copy()
         for obj in annotations.objects:
             x1 = int(obj.region.vertices[0].x)
             y1 = int(obj.region.vertices[0].y)
             x2 = int(obj.region.vertices[1].x)
             y2 = int(obj.region.vertices[1].y)
-            cv2.rectangle(output, (x1, y1), (x2, y2), (0, 0, 255), 2)
-        return output
+            cv2.rectangle(image, (x1, y1), (x2, y2), (0, 0, 255), 2)
+        return image
 
     @staticmethod
     def to_object_annotations(
-        results: NDArray[Shape["*, 15"], Float32], image_shape: Tuple[int, int, int]
+        results: NDArray[Shape["*, 15"], Float32],
+        image_shape: Tuple[Height, Width, Channels],
     ) -> ObjectAnnotations:
         annotations = ObjectAnnotations()
         for det in results:
@@ -85,11 +88,9 @@ class FaceDetector:
         annotations.resolution.height = image_shape[0]
         return annotations
 
-    def detect(
-        self, array: NDArray[Shape["*, *, 3"], Int8]
-    ) -> NDArray[Shape["*, 15"], Float32]:
-        h, w, _ = array.shape
-        self._model.setInputSize((w, h))
+    def detect(self, array: NDArray[Shape["*, *, 3"], Int8]) -> ObjectAnnotations:
+        height, width, _ = array.shape
+        self._model.setInputSize((width, height))
         faces = self._model.detect(image=array)
         faces = faces[1] if faces[1] is not None else np.array([])
-        return self.to_object_annotations(faces, image_shape=array.shape[0:2])
+        return self.to_object_annotations(faces, image_shape=array.shape)

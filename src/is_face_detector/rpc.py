@@ -1,23 +1,29 @@
+from typing import Union
+
 from is_msgs.image_pb2 import Image, ObjectAnnotations
+
 from is_wire.core import Channel, Logger, Status, StatusCode
+
+from is_wire.rpc.context import Context
 from is_wire.rpc import ServiceProvider, LogInterceptor, TracingInterceptor
 
 from is_face_detector.detector import FaceDetector
+from is_face_detector.conf.options_pb2 import Model
 from is_face_detector.utils import load_options, create_exporter
 
 
 class RPCFaceDetector(FaceDetector):
-    def __init__(self, options):
+    def __init__(self, options: Model):
         super().__init__(options)
 
-    def detect(self, image, ctx):
+    def detect(self, image: Image, ctx: Context) -> Union[Status, ObjectAnnotations]:
         try:
             return super().detect(super().to_np(image))
-        except:
+        except Exception:
             return Status(code=StatusCode.INTERNAL_ERROR)
 
 
-def main():
+def main() -> None:
     service_name = "FaceDetector.Detect"
     log = Logger(name=service_name)
 
