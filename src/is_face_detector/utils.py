@@ -5,7 +5,7 @@ from google.protobuf.json_format import Parse
 from is_wire.core import Logger, AsyncTransport
 from opencensus.ext.zipkin.trace_exporter import ZipkinExporter
 
-from .options_pb2 import FaceDetectorOptions
+from is_face_detector.conf.options_pb2 import FaceDetectorOptions
 
 
 def get_topic_id(topic):
@@ -15,8 +15,7 @@ def get_topic_id(topic):
         return result.group(1)
 
 
-def create_exporter(service_name, uri):
-    log = Logger(name="CreateExporter")
+def create_exporter(service_name, uri, log):
     zipkin_ok = re.match("http:\\/\\/([a-zA-Z0-9\\.]+)(:(\\d+))?", uri)
     if not zipkin_ok:
         log.critical("Invalid zipkin uri \"{}\", expected http://<hostname>:<port>", uri)
@@ -27,8 +26,7 @@ def create_exporter(service_name, uri):
     return exporter
 
 
-def load_options():
-    log = Logger(name='LoadingOptions')
+def load_options(log):
     op_file = sys.argv[1] if len(sys.argv) > 1 else 'options.json'
     try:
         with open(op_file, 'r') as f:

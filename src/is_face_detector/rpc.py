@@ -2,9 +2,8 @@ from is_msgs.image_pb2 import Image, ObjectAnnotations
 from is_wire.core import Channel, Logger, Status, StatusCode
 from is_wire.rpc import ServiceProvider, LogInterceptor, TracingInterceptor
 
-from .image_tools import to_np
-from .face_detector import FaceDetector
-from .utils import load_options, create_exporter
+from is_face_detector.detector import FaceDetector
+from is_face_detector.utils import load_options, create_exporter
 
 
 class RPCFaceDetector(FaceDetector):
@@ -13,32 +12,38 @@ class RPCFaceDetector(FaceDetector):
 
     def detect(self, image, ctx):
         try:
-            return super().detect(to_np(image))
+            return super().detect(super().to_np(image))
         except:
             return Status(code=StatusCode.INTERNAL_ERROR)
 
 
 def main():
-    service_name = 'FaceDetector.Detect'
+    service_name = "FaceDetector.Detect"
     log = Logger(name=service_name)
 
-    op = load_options()
+    op = load_options(log)
     detector = RPCFaceDetector(op.model)
 
     channel = Channel(op.broker_uri)
-    log.info('Connected to broker {}', op.broker_uri)
+    log.info("Connected to broker {}", op.broker_uri)
 
     provider = ServiceProvider(channel)
     provider.add_interceptor(LogInterceptor())
 
-    exporter = create_exporter(service_name=service_name, uri=op.zipkin_uri)
+    exporter = create_exporter(
+        service_name=service_name,
+        uri=op.zipkin_uri,
+        log=log,
+    )
     tracing = TracingInterceptor(exporter=exporter)
     provider.add_interceptor(tracing)
 
-    provider.delegate(topic='FaceDetector.Detect',
-                      function=detector.detect,
-                      request_type=Image,
-                      reply_type=ObjectAnnotations)
+    provider.delegate(
+        topic="FaceDetector.Detect",
+        function=detector.detect,
+        request_type=Image,
+        reply_type=ObjectAnnotations,
+    )
 
     provider.run()
 

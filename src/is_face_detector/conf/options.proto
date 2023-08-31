@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package is;
+
+import "is/msgs/validate.proto";
+
+message Model {
+    
+    message Size {
+        int32 width = 1[(is.validate.rules).int32 = {gt: 0}];
+        int32 height = 2[(is.validate.rules).int32 = {gt: 0}];
+    }
+    
+    string path = 1;
+    Size input_size = 2;
+    float conf_threshold = 3[(is.validate.rules).float = {gte: 0.0, lte: 1.0}];
+    float nms_threshold = 4[(is.validate.rules).float = {gte: 0.0, lte: 1.0}];
+    int32 top_k = 5[(is.validate.rules).int32 = {gte: -1}];
+    bool gpu = 6;
+    bool f16 = 7;
+}
+
+message FaceDetectorOptions {
+    string broker_uri = 1;
+    string zipkin_uri = 2;
+    Model model  = 5;
+}
