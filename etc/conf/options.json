@@ -2,12 +2,11 @@
     "broker_uri": "amqp://rabbitmq.default",
     "zipkin_uri": "http://zipkin.default:9411",
     "model": {
-        "model_file": "./haarcascade_frontalface_default.xml",
-        "scale_factor": 1.1,
-        "min_neighbors": 5,
-        "min_size": [
-            1,
-            1
-        ]
+        "path": "/opt/is-face-detector/etc/model/yunet.onnx",
+        "conf_threshold": 0.8,
+        "nms_threshold": 0.3,
+        "top_k": 5000,
+        "gpu": true,
+        "f16": false
     }
 }
