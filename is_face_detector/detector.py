@@ -1,10 +1,10 @@
 from typing import Tuple
-import cv2
-import numpy as np
 from nptyping import NDArray, Int8, Float32, Shape
 
-from is_msgs.image_pb2 import ObjectAnnotations, Image
+import cv2
+import numpy as np
 
+from is_msgs.image_pb2 import ObjectAnnotations, Image
 from is_face_detector.conf.options_pb2 import Model
 
 Width = int
@@ -24,11 +24,10 @@ class FaceDetector:
             self._backend_id = cv2.dnn.DNN_BACKEND_OPENCV
             self._target_id = cv2.dnn.DNN_TARGET_CPU
 
-        self._input_size = (options.input_size.width, options.input_size.height)
         self._model = cv2.FaceDetectorYN.create(
             model=options.path,
             config="",
-            input_size=self._input_size,
+            input_size=(320, 320),
             score_threshold=options.conf_threshold,
             nms_threshold=options.nms_threshold,
             top_k=options.top_k,

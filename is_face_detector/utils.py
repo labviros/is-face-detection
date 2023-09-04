@@ -1,3 +1,5 @@
+from typing import Optional
+
 import re
 import sys
 
@@ -28,7 +30,7 @@ def create_exporter(service_name: str, uri: str, log: Logger) -> ZipkinExporter:
     return exporter
 
 
-def load_options(log: Logger) -> None:
+def load_options(log: Logger) -> Optional[FaceDetectorOptions]:
     op_file = sys.argv[1] if len(sys.argv) > 1 else "options.json"
     try:
         with open(op_file, "r") as f:
