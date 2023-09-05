@@ -30,10 +30,10 @@ def main() -> None:
     )
 
     subscription = Subscription(channel=channel, name=service_name)
-    subscription.subscribe(topic="CameraGateway.3.Frame")
+    subscription.subscribe(topic="CameraGateway.*.Frame")
 
     while True:
-        msg, dropped = channel.consume_last(return_dropped=True)
+        msg, dropped = channel.consume_last()
 
         tracer = Tracer(exporter, span_context=msg.extract_tracing())
         span = tracer.start_span(name="detection_and_render")

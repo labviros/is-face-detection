@@ -2,7 +2,7 @@
     "broker_uri": "amqp://rabbitmq.default",
     "zipkin_uri": "http://zipkin.default:9411",
     "model": {
-        "path": "/opt/is-face-detector/etc/model/yunet.onnx",
+        "path": "/opt/is-face-detector/etc/modelface_detection_yunet_2023mar.onnx",
         "conf_threshold": 0.8,
         "nms_threshold": 0.3,
         "top_k": 5000,

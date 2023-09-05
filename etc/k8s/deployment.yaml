@@ -13,7 +13,7 @@ data:
         "conf_threshold": 0.8,
         "nms_threshold": 0.3,
         "top_k": 5000,
-        "gpu": false,
+        "gpu": true,
         "f16": false
       }
     }
@@ -37,13 +37,18 @@ spec:
       containers:
       - name: is-face-detector
         image: labvisio/is-face-detector:0.0.2
+        # image: nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu22.04
+
         command: ["is-face-detector-stream"]
         args: ["/conf/options.json"]
+        # command: [ "/bin/bash", "-c", "--" ]
+        # args: [ "while true; do sleep 30; done;" ]
         imagePullPolicy: Always
         resources:
           limits:
             cpu: "4"
             memory: 1024Mi
+            nvidia.com/gpu: 1
         volumeMounts:
           - name: options
             mountPath: /conf/
