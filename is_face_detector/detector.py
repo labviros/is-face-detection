@@ -43,7 +43,9 @@ class FaceDetector:
 
     @staticmethod
     def to_image(
-        image: Image, encode_format: str = ".jpeg", compression_level: float = 0.8
+        image: NDArray[Shape["*, *, 3"], Int8],
+        encode_format: str = ".jpeg",
+        compression_level: float = 0.8,
     ) -> Image:
         if encode_format == ".jpeg":
             params = [cv2.IMWRITE_JPEG_QUALITY, int(compression_level * (100 - 0) + 0)]
