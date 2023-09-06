@@ -16,7 +16,7 @@ class RPCFaceDetector(FaceDetector):
     def __init__(self, options: Model):
         super().__init__(options)
 
-    def detect(self, image: Image, ctx: Context) -> Union[Status, ObjectAnnotations]:
+    def infer(self, image: Image, ctx: Context) -> Union[Status, ObjectAnnotations]:
         try:
             return super().detect(super().to_np(image))
         except Exception:
@@ -46,7 +46,7 @@ def main() -> None:
 
     provider.delegate(
         topic="FaceDetector.Detect",
-        function=detector.detect,
+        function=detector.infer,
         request_type=Image,
         reply_type=ObjectAnnotations,
     )
