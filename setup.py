@@ -1,20 +1,15 @@
 from setuptools import setup, find_packages
 
 
-def get_requirements(req_file="requirements.txt"):
-    lines = [line.strip() for line in open(req_file)]
-    return [line for line in lines if line]
-
-
 setup(
     name='is_face_detector',
-    version='0.0.1',
+    version='0.0.2',
     description='',
-    url='http://github.com/labviros/is-face-detector',
-    author='labviros',
+    url='http://github.com/labvisio/is-face-detector',
+    author='labvisio',
     license='MIT',
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
+    packages=find_packages('.'),
+    package_dir={'': '.'},
     entry_points={
         'console_scripts': [
             'is-face-detector-stream=is_face_detector.stream:main',
@@ -22,5 +17,13 @@ setup(
         ],
     },
     zip_safe=False,
-    install_requires=get_requirements(req_file="requirements.txt"),
+    install_requires=[
+        "is-msgs==1.1.18",
+        "is-wire==1.2.1",
+        "numpy==1.24.4",
+        "nptyping==2.5.0",
+        # "opencv-contrib-python==4.8.0.76", # install from source with gpu support
+        "opencensus-ext-zipkin==0.2.1",
+        "python-dateutil==2.8.0",
+    ],
 )
