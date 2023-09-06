@@ -7,21 +7,17 @@
 ![Example Image](https://raw.githubusercontent.com/labvisio/is-face-detector/master/etc/images/face.png)
 
 
-In a simplified way, a service on the Intelligent Space is a python (or cpp, etc.) application running in a docker container which is orchestrated on a kubernetes platform across a set of hosts.
-
-This service detects faces in images, providing these detections in different ways. It runs on **CPU**.
+In a simplified manner, a service within the Intelligent Space is essentially a Python (or C++, and so on) application running within a Docker container, seamlessly orchestrated across a cluster of hosts using Kubernetes. This service detects faces in images, providing these detections in different ways.
 
 ## About :smile:
 
 > YuNet is a light-weight, fast and accurate face detection model, which achieves 0.834(AP_easy), 0.824(AP_medium), 0.708(AP_hard) on the WIDER Face validation set. [See more](https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet)
 
-The files are download using the script in [`etc/model/download_models.sh`](https://github.com/labvisio/is-face-detector/blob/master/etc/model/download_models.sh).
+The model is downloaded using the script [`etc/model/download_models.sh`](https://github.com/labvisio/is-face-detector/blob/master/etc/model/download_models.sh).
 
 ## Streams :camera:
 
-A stream is a program that consumes messages with a specific topic, processes them, and publishes messages in other topics, so if another service wants to use the informations provided by this service, it can simply subscribe to receive messages with the topic of interest.
-
-The python script responsible for the stream in the table below can be found in [`src/is_face_detector/stream.py`](https://github.com/labvisio/is-face-detector/blob/master/src/is_face_detector/stream.py).
+A stream is a program that consumes messages with a specific topic, processes them, and publishes messages in other topics, so if another service wants to use the informations provided by this service, it can simply subscribe to receive messages with the topic of interest. The python script responsible for the stream in the table below can be found in [`src/is_face_detector/stream.py`](https://github.com/labvisio/is-face-detector/blob/master/src/is_face_detector/stream.py).
 
 | Name | ⇒ Input | Output  ⇒ | Description |
 | ---- | ------- | --------- | ----------- |
@@ -32,9 +28,7 @@ The python script responsible for the stream in the table below can be found in 
 
 ## RPCs :camera_flash:
 
-The RPC, or Remote Procedure Call, provided here acts as a remote server that binds a specific function to a topic. You can process an [Image] by sending the message to the topic of this service. It will be processed and you will receive a response, which can be the faces detected in an [ObjectAnnotations], error, timeout, etc...
-
-The python script responsible for the RPC in the table below can be found in [`src/is_face_detector/rpc.py`](https://github.com/labvisio/is-face-detector/blob/master/src/is_face_detector/rpc.py).
+The RPC, or Remote Procedure Call, provided here acts as a remote server that binds a specific function to a topic. You can process an [Image] by sending the message to the topic of this service. It will be processed and you will receive a response, which can be the faces detected in an [ObjectAnnotations], error, timeout, etc... The python script responsible for the RPC in the table below can be found in [`src/is_face_detector/rpc.py`](https://github.com/labvisio/is-face-detector/blob/master/src/is_face_detector/rpc.py).
 
 | Service | Request | Reply |  Description |
 | ------- | ------- | ----- | ------------ |
@@ -87,13 +81,13 @@ The project structure follows as:
 
 * [`etc/conf/options.json`](https://github.com/labvisio/is-face-detector/blob/master/etc/conf/options.json): Example of JSON configuration file. Also used as default if none is passed;
 
-* [`etc/docker/Dockerfile`](https://github.com/labvisio/is-face-detector/blob/master/etc/docker/Dockerfile): Dockerfile with the instructions to build a docker image containing this application;
+* [`etc/docker/Dockerfile`](https://github.com/labvisio/is-face-detector/blob/master/etc/docker/Dockerfile): Dockerfile with the instructions to build a docker image with this application;
 
 * [`etc/k8s`](https://github.com/labvisio/is-face-detector/blob/master/etc/k8s): Example of yaml files indicating how to deploy the docker container of this application into a kubernetes cluster;
 
 * [`etc/images`](https://github.com/labvisio/is-face-detector/blob/master/etc/images): examples of detection;
 
-* [`etc/model/download_models.sh`](https://github.com/labvisio/is-face-detector/blob/master/etc/model/download_models.sh): shell script used to download the Haar feature-based cascade classifiers from opencv;
+* [`etc/model/download_models.sh`](https://github.com/labvisio/is-face-detector/blob/master/etc/model/download_models.sh): shell script used to download model;
 
 * [`is_face_detector`](https://github.com/labvisio/is-face-detector/blob/master/src/is_face_detector): python module with all the scripts;
 
@@ -123,9 +117,7 @@ In this project, Procol Buffers are also used to define the [`options`](https://
 
 To run the application into kubernetes platform, it must be packaged in the right format which is a [docker container](https://www.docker.com/resources/what-container). A docker container can be initialized from a docker image, the instructions to build the docker image are at [`etc/docker/Dockerfile`](https://github.com/labvisio/is-face-detector/blob/master/etc/docker/Dockerfile).
 
-To be available to the kubernetes cluster, the docker image must be stored on [dockerhub](https://hub.docker.com/). Here, the repository on dockerhub in linked to this github repository. So every time we set a tag here, it triggers the build of the docker image. More about  [how to automate the build of the docker image on dockerhub](https://docs.docker.com/docker-hub/builds/).
-
-It is not necessary to automate the build of the docker image. It is possible to build the image locally and push to dockerhub. For example,
+To be available to the kubernetes cluster, the docker image must be stored on [dockerhub](https://hub.docker.com/), to build the image locally and push to dockerhub:
 
 ```bash
 docker build -f etc/docker/Dockerfile -t <user>/is-face-detector:<version> .
