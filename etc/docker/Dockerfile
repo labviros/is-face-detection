@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04 as build
+FROM nvcr.io/nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04 as build
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OPENCV_VERSION=4.8.0
@@ -27,14 +27,14 @@ RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip &&\
     rm ${OPENCV_VERSION}.zip &&\
     mkdir /opt/opencv-${OPENCV_VERSION}/build && cd /opt/opencv-${OPENCV_VERSION}/build &&\
     cmake \
-        -DOPENCV_EXTRA_MODULES_PATH=/opt/opencv_contrib-${OPENCV_VERSION}/modules \
-        -DWITH_CUDA=ON \
-        -DWITH_CUDNN=ON \ 
-        -DOPENCV_DNN_CUDA=ON \
-        -DENABLE_FAST_MATH=ON \
-        -DCUDA_FAST_MATH=ON \
-        -DWITH_CUBLAS=ON \
-        -DCUDA_ARCH_BIN=7.0,7.5,8.0,8.6 \
+        -D OPENCV_EXTRA_MODULES_PATH=/opt/opencv_contrib-${OPENCV_VERSION}/modules \
+        -D WITH_CUDA=ON \
+        -D WITH_CUDNN=ON \ 
+        -D OPENCV_DNN_CUDA=ON \
+        -D ENABLE_FAST_MATH=ON \
+        -D CUDA_FAST_MATH=ON \
+        -D WITH_CUBLAS=ON \
+        -D CUDA_ARCH_BIN=5.3,6.1,7.0,7.2,7.5,8.6 \
         -D BUILD_OPENCV_PYTHON3=ON \
         -D BUILD_OPENCV_PYTHON2=OFF \
         -D BUILD_OPENCV_JAVA=OFF \
@@ -66,7 +66,7 @@ RUN pip3 install . && \
     ./download_models.sh && \
     cd ../../
 
-FROM nvidia/cuda:11.1.1-cudnn8-runtime-ubuntu20.04
+FROM nvcr.io/nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04
 COPY --from=build /opt/.venv /opt/.venv
 COPY --from=build /opt/is-face-detector/etc/model /opt/is-face-detector/etc/model
 COPY --from=build /opt/is-face-detector/etc/conf/options.json /etc/is-face-detector/options.json
