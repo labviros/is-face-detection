@@ -1,7 +1,7 @@
 # Face Detector Service
 
 [![Docker image tag](https://img.shields.io/docker/v/labvisio/is-face-detector?sort=semver&style=flat-square)](https://hub.docker.com/r/labvisio/is-face-detector/tags)
-[![Docker image size](https://img.shields.io/docker/image-size/labvisio/is-face-detector?sort=semver&style=flat-square)](https://hub.docker.com/r/is-face-detector)
+[![Docker image size](https://img.shields.io/docker/image-size/labvisio/is-face-detector?sort=semver&style=flat-square)](https://hub.docker.com/r/labvisio/is-face-detector)
 [![Docker pulls](https://img.shields.io/docker/pulls/labvisio/is-face-detector?style=flat-square)](https://hub.docker.com/r/labvisio/is-face-detector)
 
 ![Example Image](https://raw.githubusercontent.com/labvisio/is-face-detector/master/etc/images/face.png)
@@ -124,7 +124,7 @@ docker build -f etc/docker/Dockerfile -t <user>/is-face-detector:<version> .
 docker push <user>/is-face-detector:<version>
 ```
 
-The docker image used here supports any application in python that uses [OpenCV]. If you need another module, specify on [`requirements.txt`](https://github.com/labvisio/is-face-detector/blob/master/requirements.txt). Your application may not run because the image docker doesn't contain some library, in this case it will be necessary to edit the [`etc/docker/Dockerfile`](https://github.com/labvisio/is-face-detector/blob/master/etc/docker/Dockerfile) and rebuild it to install what you need or to use another base image. 
+The docker image used here supports any application in python that uses [OpenCV]. Your application may not run because the image docker doesn't contain some library, in this case it will be necessary to edit the [`etc/docker/Dockerfile`](https://github.com/labvisio/is-face-detector/blob/master/etc/docker/Dockerfile) and rebuild it to install what you need or to use another base image. 
 
 ### Kubernetes <img alt="k8s" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/kubernetes/kubernetes.png" />
 
