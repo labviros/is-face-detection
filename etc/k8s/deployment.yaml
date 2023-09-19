@@ -1,29 +1,13 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: face-detector
-  namespace: default
-data:
-  detector: |-
-    {
-      "broker_uri": "amqp://rabbitmq.default",
-      "zipkin_uri": "http://zipkin.default:9411",
-      "model": {
-        "model_file": "./haarcascade_frontalface_default.xml",
-        "scale_factor" : 1.3,
-        "min_neighbors" : 5,  
-        "min_size": [30,30]
-      }
-    }
----
-
-apiVersion: extensions/v1beta1 
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
   name: is-face-detector
   namespace: default
 spec:
-  replicas: 3
+  selector:
+    matchLabels:
+      app: is-face-detector
+  replicas: 4
   template:
     metadata:
       labels:
@@ -31,14 +15,15 @@ spec:
     spec:
       containers:
       - name: is-face-detector
-        image: labviros/is-face-detector:0.0.1
+        image: labvisio/is-face-detector:0.0.2
         command: ["is-face-detector-stream"]
         args: ["/conf/options.json"]
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: "4"
-            memory: 1024Mi
+            cpu: "1"
+            memory: 3096Mi
+            nvidia.com/gpu: 1
         volumeMounts:
           - name: options
             mountPath: /conf/

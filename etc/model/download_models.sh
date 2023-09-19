@@ -23,14 +23,13 @@ fi
 
 if [[ $EUID != 0 || -z ${wasnt_root} ]]; then
     WGET="wget --retry-connrefused --read-timeout=20 --timeout=15 -t 0 --continue -c"
-    FILES="haarcascade_frontalface_default.xml haarcascade_frontalface_alt.xml
-    haarcascade_frontalface_alt2.xml haarcascade_frontalface_alt_tree.xml"
+    FILES="face_detection_yunet_2023mar.onnx"
 
     for file in ${FILES}; do
         if [ -e $file ]; then
             echo "|>>| model $file exists, skipping download..."
         else
-            url="https://raw.githubusercontent.com/opencv/opencv/4.4.0/data/haarcascades/${file}"
+            url="https://github.com/opencv/opencv_zoo/blob/main/models/face_detection_yunet/${file}"
             echo "|>>| downloading ${file} "
             $WGET $url
         fi

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package is;
+
+import "is/msgs/validate.proto";
+
+message Model {
+    // File path to onnx model.
+    string path = 1;
+    // Minimum needed confidence for the model to identify a face.
+    float conf_threshold = 2[(is.validate.rules).float = {gte: 0.0, lte: 1.0}];
+    // Suppress bounding boxes of iou >= nms_threshold.
+    float nms_threshold = 3[(is.validate.rules).float = {gte: 0.0, lte: 1.0}];
+    // Keep top_k bounding boxes before NMS.
+    int32 top_k = 4[(is.validate.rules).int32 = {gte: -1}];
+    // Flag to enable usage of gpu.
+    bool gpu = 5;
+    // Flag to enable usage of float16 when using GPU.
+    bool f16 = 6;
+}
+
+message FaceDetectorOptions {
+    // RabbitMQ uri (e.g.: 'amqp://guest:guest@localhost:5672').
+    string broker_uri = 1;
+    // Zipkin uri (e.g: 'http://localhost:9411').
+    string zipkin_uri = 2;
+    // Model configurations.
+    Model model  = 3;
+}
